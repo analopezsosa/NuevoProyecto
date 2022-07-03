@@ -55,7 +55,7 @@ public class SubjectController {
         //loginDisplay(model);
         subjectService.saveSubject(newsubject);
         model.addAttribute("subject",newsubject);
-
+        model.addAttribute("subjects",subjectService.getSubjectList());
         return "viewsubject";
     }
 
