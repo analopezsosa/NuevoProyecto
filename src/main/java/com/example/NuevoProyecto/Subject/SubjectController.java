@@ -2,6 +2,7 @@ package com.example.NuevoProyecto.Subject;
 
 import com.example.NuevoProyecto.Grade.Grade;
 import com.example.NuevoProyecto.Grade.GradeService;
+import com.example.NuevoProyecto.User.User;
 import com.example.NuevoProyecto.User.UserService;
 import org.owasp.html.Sanitizers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -27,9 +29,16 @@ public class SubjectController {
     private SubjectService subjectService;
 
     @GetMapping("/")
-    public String showSubjects(Model model) {
+    public String showSubjects(Model model, HttpSession session) {
+
+        String user = (String)session.getAttribute("user");
         loginDisplay(model);
+        User aux = userService.getUser(user);
+        if(aux.getRoles().contains("ADMIN")){
+            model.addAttribute("admin",true);
+        }
         model.addAttribute("subjects", subjectService.getSubjectList());
+
         return "viewsubjects";
     }
 
@@ -104,7 +113,7 @@ public class SubjectController {
     }
 */
 
-    @PostMapping("/{id}/addtograde")
+    @PostMapping("/addtograde")
     public String addingSubjectToGrade(@RequestParam long idS, @RequestParam long idG, Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
@@ -139,7 +148,7 @@ public class SubjectController {
         return "removesubject";
     }
 */
-    @PostMapping("/{id}/remove")
+    @PostMapping("/remove")
     public String removeSubject( @RequestParam Long id, Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
@@ -174,7 +183,7 @@ public class SubjectController {
     }
 
  */
-    @PostMapping("/{id}/removefromgrade")
+    @PostMapping("/removefromgrade")
     public String remove(@RequestParam Long idS, @RequestParam Long idG, Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {

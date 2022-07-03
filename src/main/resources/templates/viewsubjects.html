@@ -44,6 +44,109 @@
       </div>
 
       </div>
+
+    {{#admin}}
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <section class="position-relative py-4 py-xl-5">
+            <div class="container">
+              <div class="block-heading">
+                <h2 class="text-info">Eliminar asignatura</h2>
+                <p>Introduce la ID de la asignatura que desees eliminar.</p>
+              </div>
+              <form data-aos="fade-up" data-aos-once="true" action="/subjects/removesubject" method="post" style="border-top-color: var(--bs-teal);">
+                <input type="hidden" name="_csrf" value="{{token}}"/>
+                <div class="mb-3"><label>ID</label><input class="form-control" type="number" name="id" required=""></div>
+                <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Send</button>
+              </form>
+            </div>
+          </section>
+        </div>
+
+        <div class="col">
+          <section class="position-relative py-4 py-xl-5">
+            <div class="container">
+              <div class="block-heading">
+                <h2 class="text-info">Editar asignatura</h2>
+                <p>Introduce la ID de la asignatura que desees editar y los campos a cambiar.</p>
+              </div>
+              <form data-aos="fade-up" data-aos-once="true" action="/subject/editsubject" method="post" style="border-top-color: var(--bs-teal);">
+                <input type="hidden" name="_csrf" value="{{token}}"/>
+                <div class="mb-3"><label>ID</label><input class="form-control" type="number" name="id" required=""></div>
+                <div class="mb-3"><label>Nuevo nombre</label><input class="form-control" type="text" name="name"></div>
+                <div class="mb-3"><label>Nuevo número</label><input class="form-control" type="number" name="subjectNumber" ></div>
+                <div class="mb-3"><label>Nueva descripción</label><textarea name="description"></textarea></div>
+
+                <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Send</button>
+              </form>
+            </div>
+          </section>
+        </div>
+
+        <div class="col">
+          <section class="position-relative py-4 py-xl-5">
+            <div class="container">
+              <div class="block-heading">
+                <h2 class="text-info">Añadir asignatura a un curso</h2>
+                <p>Introduce la ID de la asignatura y la ID del curso.</p>
+              </div>
+              <form data-aos="fade-up" data-aos-once="true" action="/subjects/addtograde" method="post" style="border-top-color: var(--bs-teal);">
+                <input type="hidden" name="_csrf" value="{{token}}"/>
+                <div class="mb-3"><label>ID asignatura</label><input class="form-control" type="number" name="idS" required=""></div>
+                <div class="mb-3"><label>ID curso</label><input class="form-control" type="number" name="idG" required=""></div>
+
+                <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Send</button>
+              </form>
+            </div>
+          </section>
+
+        </div>
+        <div class="col">
+          <section class="position-relative py-4 py-xl-5">
+            <div class="container">
+              <div class="block-heading">
+                <h2 class="text-info">Borrar asignatura</h2>
+                <p>Introduce la ID de la asignatura.</p>
+              </div>
+              <form data-aos="fade-up" data-aos-once="true" action="/subjects/remove" method="post" style="border-top-color: var(--bs-teal);">
+                <input type="hidden" name="_csrf" value="{{token}}"/>
+                <div class="mb-3"><label>ID asignatura</label><input class="form-control" type="number" name="id" required=""></div>
+
+
+                <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Send</button>
+              </form>
+            </div>
+            <div class="col">
+              <section class="position-relative py-4 py-xl-5">
+                <div class="container">
+                  <div class="block-heading">
+                    <h2 class="text-info">Borrar asignatura de un curso</h2>
+                    <p>Introduce la ID de la asignatura y la ID del curso.</p>
+                  </div>
+                  <form data-aos="fade-up" data-aos-once="true" action="/subjects/removefromgrade" method="post" style="border-top-color: var(--bs-teal);">
+                    <input type="hidden" name="_csrf" value="{{token}}"/>
+                    <div class="mb-3"><label>ID asignatura</label><input class="form-control" type="number" name="idS" required=""></div>
+                    <div class="mb-3"><label>ID curso</label><input class="form-control" type="number" name="idG" required=""></div>
+
+                    <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Send</button>
+                  </form>
+                </div>
+              </section>
+
+            </div>
+          </section>
+
+        </div>
+
+      </div>
+    </div>
+    {{/admin}}
+
+
+
+
+
     </div>
   </section>
 </main>
