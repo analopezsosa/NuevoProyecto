@@ -95,12 +95,16 @@ public class GradeController {
         }
     }
     @GetMapping("/{id}")
-    public String showGrade(Model model,@PathVariable long id) {//AQUI LA SESION
-        System.out.println("si ve el cursp");
+    public String showGrade(Model model,@PathVariable long id, HttpSession session) {//AQUI LA SESION
+        String infoname = (String) session.getAttribute("user");
+        User u = userService.getUser(infoname);
         Grade exist = gradeService.getGrade(id);
         if (exist != null) {
             model.addAttribute("grade", gradeService.getGrade(id));
             //loginDisplay(model);
+            if(u.getRoles().contains("ADMIN")){
+                model.addAttribute("admin",true);
+            }
             return "grade";
         }
         return "error";
