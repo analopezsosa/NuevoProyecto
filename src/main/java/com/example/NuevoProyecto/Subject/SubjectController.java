@@ -56,7 +56,7 @@ public class SubjectController {
         subjectService.saveSubject(newsubject);
         model.addAttribute("subject",newsubject);
         model.addAttribute("subjects",subjectService.getSubjectList());
-        return "viewsubject";
+        return "viewsubjects";
     }
 
     @PostMapping("/edit")

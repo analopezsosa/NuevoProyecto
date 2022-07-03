@@ -58,10 +58,16 @@
             <input type="hidden" name="_csrf" value="{{token}}"/>
             <div class="mb-3"><label>Nuevo nombre</label><input class="form-control" type="text" name="name"></div>
             <div class="mb-3"><label>Nuevo número</label><input class="form-control" type="number" name="subjectNumber" ></div>
-            <div class="mb-3"><label>Nueva descripción</label><textarea name="description"></textarea></div>
+            <div class="mb-3"><label>Nueva descripción</label>
+              <textarea name="description"></textarea></div>
 
             <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Send</button>
           </form>
+
+          <script src="/assets/ckeditor/ckeditor.js"> </script>
+          <script>
+            CKEDITOR.replace('description');
+          </script>
         </div>
       </section>
     </div>
@@ -99,6 +105,11 @@
 
                 <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Send</button>
               </form>
+
+              <script src="assets/ckeditor/ckeditor.js"> </script>
+              <script>
+                CKEDITOR.replace('description');
+              </script>
             </div>
           </section>
         </div>
