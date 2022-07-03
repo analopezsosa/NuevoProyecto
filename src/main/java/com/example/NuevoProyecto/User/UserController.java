@@ -59,8 +59,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String loginUser(@RequestParam String username,@RequestParam String password, Model model){
+    public String loginUser(@RequestParam String username,@RequestParam String password, Model model, HttpSession session){
+
         User user=userService.getUser(username);
+        session.setAttribute("user",username);
         System.out.println("Segundo");
         if(user==null) {
 
@@ -91,12 +93,11 @@ public class UserController {
 
 
     @PostMapping("/joingradeU")
-    public String joinGradeU(@RequestParam long id, Model model){
-        loginDisplay(model);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String userToJoin = auth.getName();
+    public String joinGradeU(@RequestParam long id, Model model,HttpSession session){
+
+        String userToJoin = (String)session.getAttribute("user");
         System.out.println(userToJoin);
-        //User userToJoin = userService.userRepository.getById(infoname);
+
         Grade gradeToJoin=gradeService.getGrade(id);
         if (userService.getUser(userToJoin).getGrade()==null) {
             System.out.println("\nno tiene grade");
