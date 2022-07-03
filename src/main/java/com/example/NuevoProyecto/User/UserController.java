@@ -176,8 +176,24 @@ public class UserController {
 
 
     @GetMapping("/{user}")
-    public String viewuser(Model model,@PathVariable String user){
+    public String viewuser(Model model,@PathVariable String user, HttpSession session){
+        String infoname = (String) session.getAttribute("user");
         User u = userService.getUser(user);
+        if(u.getRoles().contains("ADMIN")){
+            model.addAttribute("admin",true);
+        }
+
+
+        if (u.getGrade()!= null) {
+            System.out.println("entra aqui?");
+            model.addAttribute("grade", userService.getgrade(u.getUser()));
+            model.addAttribute("yesgrade",true);
+        }else{
+            System.out.println("o aaqui?");
+            model.addAttribute("notgrade",true);
+        }
+
+
         if(u != null){
             model.addAttribute("user",userService.getUser(user));
             return "viewuser";
@@ -185,31 +201,59 @@ public class UserController {
         return "error";
     }
 
-
-        private void loginDisplay(Model model) {
-
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
-                model.addAttribute("isLogged", true);
-                if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-                    model.addAttribute("admin", true);
-                } else {
-                    model.addAttribute("username", userService.getUser(auth.getName()));
-                }
-            }
-    }
-/*
-    @GetMapping("/grades/{id}")
-    public String showGrade(Model model,@PathVariable long id) {
-        System.out.println("si ve el cursp");
-        Grade exist = gradeService.getGrade(id);
-        if (exist != null) {
-            model.addAttribute("grade", gradeService.getGrade(id));
-            //loginDisplay(model);
-            return "grade";
+    @PostMapping("/remove")
+    public String remove(@RequestParam String username, HttpSession session, Model model){
+        String infoname = ( String) session.getAttribute("user");
+        User u = userService.getUser(infoname);
+        if(u.getRoles().contains("ADMIN")){
+            model.addAttribute("admin",true);
         }
-        return "error";
+
+        User user = userService.getUser(username);
+        if(user != null&&user.getGrade()!=null){
+            Grade grade=user.getGrade();
+            user.deleteGrade(grade);
+            grade.deleteUser(user);
+            gradeService.addGrade(grade);
+            userService.removeUser(username);
+        }else if(user!=null){
+            userService.removeUser(username);
+
+        }
+        model.addAttribute("users",userService.getUsers());
+        return "viewusers";
+
     }
 
- */
+
+    @PostMapping("/removefromgrade")
+    public String removefromgrade(@RequestParam String name,@RequestParam long id,  HttpSession session, Model model){
+        String infoname = ( String) session.getAttribute("user");
+        User u = userService.getUser(infoname);
+        if(u.getRoles().contains("ADMIN")){
+            model.addAttribute("admin",true);
+        }
+
+        User user=userService.getUser(name);
+        Grade grade=gradeService.getGrade(id);
+        user.deleteGrade(grade);
+        grade.deleteUser(user);
+        gradeService.addGrade(grade);
+        model.addAttribute("users",userService.getUsers());
+        return "viewusers";
+
+    }
+
+    private void loginDisplay(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
+            model.addAttribute("isLogged", true);
+            if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                model.addAttribute("admin", true);
+            } else {
+                model.addAttribute("username", userService.getUser(auth.getName()));
+            }
+        }
+    }
+
 }

@@ -25,6 +25,9 @@
                     <button class="dropdown-item"  style="color: var(--bs-red);padding: 0px;" type="submit">Cerrar Sesión</button>
                 </form>
             </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="/options" style="color: var(--bs-teal);">Opciones</a></li>
+            </ul>
         </div>
     </div>
 </nav>
@@ -39,14 +42,14 @@
                 <h3 class="text-info">Datos personales</h3>
                 <p>Nombre: {{user.user}}</p>
                 <p>Apellidos: {{user.lastName}}</p>
+                {{#yesgrade}}
                 <p>Pertenece al curso:                 <a href="/grades/{{user.grade.id}}">- {{user.grade}}, {{user.grade.gradeNumber}} ID del curso: {{user.grade.id}} </a><br>
+                    {{/yesgrade}}
                 </p>
             </div>
             <div class="block-content" style="border-top-style: solid;border-top-color: var(--bs-teal);height: auto;">
 
 
-                <a class="btn btn-primary" role="button" style="margin: 7px;background: rgba(32,110,201,0.72);" href="removeUser">Eliminar usuario</a>
-                <a class="btn btn-primary" role="button" style="margin: 7px;background: rgba(32,110,201,0.72);" href="removeuserfromgrade" style="color: var(--bs-orange);border-style: double;">Eliminar usuario de un curso&nbsp;</a>
             </div>
         </div>
     </section>

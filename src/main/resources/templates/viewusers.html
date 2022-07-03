@@ -19,17 +19,21 @@
 <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
     <div class="container"><a class="navbar-brand logo" href="index.html">IES Rey Juan Carlos</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-1">
+
             <ul class="navbar-nav ms-auto">
                 <form method="post" action="/logout">
                     <input type="hidden" name="_csrf" value="{{token}}"/>
                     <button class="dropdown-item"  style="color: var(--bs-red);padding: 0px;" type="submit">Cerrar Sesión</button>
                 </form>
             </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="/options" style="color: var(--bs-teal);">Opciones</a></li>
+            </ul>
         </div>
     </div>
 </nav>
 <main class="page blog-post-list">
-    <section class="clean-block clean-blog-list dark" style="height: 800px;">
+    <section class="clean-block clean-blog-list dark" style="height: 1800px;">
         <div class="container">
             <div class="block-heading">
                 <h2 class="text-info">Usuarios</h2>
@@ -53,9 +57,48 @@
             </div>
             <div class="block-content" style="border-top-style: solid;border-top-color: var(--bs-teal);height: auto;">
 
+                <div class="container">
+                    <div class="row">
 
-                <a class="btn btn-primary" role="button" style="margin: 7px;background: rgba(32,110,201,0.72);" href="removeUser">Eliminar usuario</a>
-                <a class="btn btn-primary" role="button" style="margin: 7px;background: rgba(32,110,201,0.72);" href="removeuserfromgrade" style="color: var(--bs-orange);border-style: double;">Eliminar usuario de un curso&nbsp;</a>
+
+
+                        <div class="col">
+                            <section class="position-relative py-4 py-xl-5">
+                                <div class="container">
+                                    <div class="block-heading">
+                                        <h2 class="text-info">Eliminar usuario</h2>
+                                        <p>Introduce el nombre del usuario que desees eliminar</p>
+                                    </div>
+                                    <form data-aos="fade-up" data-aos-once="true" action="/users/remove" method="post" style="border-top-color: var(--bs-teal);">
+                                        <input type="hidden" name="_csrf" value="{{token}}"/>
+                                        <div class="mb-3"><label>Usuario</label><input class="form-control" type="text" name="username" required=""></div>
+                                        <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Send</button>
+                                    </form>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col">
+                            <section class="position-relative py-4 py-xl-5">
+                                <div class="container">
+                                    <div class="block-heading">
+                                        <h2 class="text-info">Eliminar usuario de un curso</h2>
+                                        <p>Introduce el nombre de usuario que desees eliminar y el id del curso.</p>
+                                    </div>
+                                    <form data-aos="fade-up" data-aos-once="true" action="/users/removefromgrade" method="post" style="border-top-color: var(--bs-teal);">
+                                        <input type="hidden" name="_csrf" value="{{token}}"/>
+                                        <div class="mb-3"><label>Usuario</label><input class="form-control" type="text" name="name" required=""></div>
+                                        <div class="mb-3"><label>Id del curso</label><input class="form-control" type="number" name="id" required=""></div>
+                                        <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Send</button>
+                                        <a class="btn btn-primary" role="button" href="viewusers.html" style="margin: 14px;background: var(--bs-gray-500);">Volver atrás</a>
+                                    </form>
+                                </div>
+                            </section>
+                        </div>
+
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
