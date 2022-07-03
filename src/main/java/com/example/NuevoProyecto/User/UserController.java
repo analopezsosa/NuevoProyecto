@@ -74,6 +74,7 @@ public class UserController {
                 model.addAttribute("notgrade",true);
             }
             if (user.getRoles().contains("ADMIN")) {
+                model.addAttribute("admin",true);
                 return "admin";
             }
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -34,13 +34,8 @@ public class GradeController {
         return "viewgrades";
     }
 
-    @GetMapping("/create")
-    public String showCreate(Model model){
-        loginDisplay(model);
-        return "creategrade";
-    }
 
-    @PostMapping("/create")
+    @GetMapping("/create")
     public String createGrade(Model model,@RequestParam String name,@RequestParam int gradeNumber,@RequestParam String teacher){
         loginDisplay(model);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
