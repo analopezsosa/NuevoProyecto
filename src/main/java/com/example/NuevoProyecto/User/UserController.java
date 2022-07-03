@@ -135,7 +135,7 @@ public class UserController {
         if (exist != null) {
             model.addAttribute("grade", gradeService.getGrade(id));
             //loginDisplay(model);
-            return "viewsubjects";
+            return "grade";
         }
         return "error";
     }
