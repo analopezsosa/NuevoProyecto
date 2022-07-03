@@ -43,7 +43,7 @@ public class SubjectController {
     }
 
 
-    @PostMapping("/create")
+    @PostMapping("/creates")
     public String createSubject(@RequestParam String name, @RequestParam int subjectNumber, @RequestParam String description, Model model, HttpSession session){
         String infoname = ( String) session.getAttribute("user");
         User u = userService.getUser(infoname);
@@ -53,7 +53,7 @@ public class SubjectController {
         Subject newsubject = new Subject(name, subjectNumber, Sanitizers.FORMATTING.sanitize(description));
 
         //loginDisplay(model);
-        subjectService.saveSubject(newsubject);
+        subjectService.subjectRepository.save(newsubject);
         model.addAttribute("subject",newsubject);
         model.addAttribute("subjects",subjectService.getSubjectList());
         return "viewsubjects";

@@ -54,13 +54,11 @@
             <h2 class="text-info">Crear asignatura</h2>
             <p>Introduce el nombre y el número de la asignatura que desees crear.</p>
           </div>
-          <form data-aos="fade-up" data-aos-once="true" action="/subjects/create" method="post" style="border-top-color: var(--bs-teal);">
+          <form data-aos="fade-up" data-aos-once="true" action="/subjects/creates" method="post" style="border-top-color: var(--bs-teal);">
             <input type="hidden" name="_csrf" value="{{token}}"/>
             <div class="mb-3"><label>Nuevo nombre</label><input class="form-control" type="text" name="name"></div>
             <div class="mb-3"><label>Nuevo número</label><input class="form-control" type="number" name="subjectNumber" ></div>
-            <div class="mb-3"><label>Nueva descripción</label>
-              <textarea name="description"></textarea></div>
-
+            <div class="mb-3"><label>Nueva descripción</label><textarea name="description"></textarea></div>
             <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Send</button>
           </form>
 
