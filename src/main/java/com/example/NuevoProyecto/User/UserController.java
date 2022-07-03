@@ -52,20 +52,22 @@ public class UserController {
 
     @GetMapping("/login")
     public String showLogin() {
-
+        System.out.println("Primero");
         return "login";
     }
 
     @PostMapping("/login")
-    public String loginUser(@RequestParam String name,@RequestParam String password, Model model){
-        User user=userService.getUser(name);
+    public String loginUser(@RequestParam String username,@RequestParam String password, Model model){
+        User user=userService.getUser(username);
+        System.out.println("Segundo");
         if(user==null) {
 
             return "signup";
         }else if(passwordEncoder.matches(password, user.getPassword())) {
-            model.addAttribute("user", userService.getUser(name));
+            System.out.println("Tercero");
+            model.addAttribute("user", userService.getUser(username));
             if (user.getGrade()!= null) {
-                model.addAttribute("grade", userService.getgrade(name));
+                model.addAttribute("grade", userService.getgrade(username));
             }
             if (user.getRoles().contains("ADMIN")) {
                 return "admin";
@@ -74,6 +76,7 @@ public class UserController {
             if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
                 model.addAttribute("admin", true);
             } else {
+                System.out.println("Cuarto");
                 model.addAttribute("username", auth.getName());
             }
             return "user";
