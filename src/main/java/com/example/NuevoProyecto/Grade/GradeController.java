@@ -105,16 +105,34 @@ public class GradeController {
         return "error";
     }
 
-    @PostMapping("/{id}/delete")
+    @PostMapping("/removegrade")
     public String deleteTeam(@PathVariable long id, Model model) {
 
         if(gradeService.getGrade(id)!=null) {
            gradeService.deleteGrade(id);
             loginDisplay(model);
-            return "index";
+            return "viewgrades";
         }
         return "error";
     }
+
+
+
+    @PostMapping("/editgrade")
+    public String edited(Model model,@RequestParam long id, @RequestParam String name, @RequestParam int gradeNumber, @RequestParam String teacher){
+        Grade editThisGrade = gradeService.getGrade(id);
+
+        editThisGrade.setName(name);
+        editThisGrade.setGradeNumber(gradeNumber);
+        editThisGrade.setTeacher(teacher);
+        gradeService.addGrade(editThisGrade);
+        loginDisplay(model);
+        model.addAttribute("admin",true); //esto no se muy bien si hay necesidad de volver a indicar si es admin o lo guarda
+        model.addAttribute("isLogged",true); //esto igual
+        return "viewgrades";
+    }
+
+
 
     private void loginDisplay(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -127,21 +145,5 @@ public class GradeController {
             }
         }
     }
-
-    @PostMapping("/editgrade")
-    public String edited(Model model,@RequestParam long id, @RequestParam String name, @RequestParam int gradeNumber, @RequestParam String teacher){
-        Grade editThisGrade = gradeService.getGrade(id);
-
-        editThisGrade.setName(name);
-        editThisGrade.setGradeNumber(gradeNumber);
-        editThisGrade.setTeacher(teacher);
-        gradeService.addGrade(editThisGrade);
-        loginDisplay(model);
-        return "editedgrade";
-    }
-
-
-
-
 
 }
