@@ -1,8 +1,9 @@
 package com.example.NuevoProyecto.User;
 
-
+import org.springframework.security.core.Authentication;
 import com.example.NuevoProyecto.Grade.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,31 +58,27 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String loginUser(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
-        session.setAttribute("user", username);
-
-        User user = userService.getUser(username);
-        if (user == null) {
-            model.addAttribute("notRegistered", true);
+    public String loginUser(@RequestParam String name,@RequestParam String password, Model model){
+        User user=userService.getUser(name);
+        if(user==null) {
             return "signup";
-        } else if (passwordEncoder.matches(password, user.getPassword())) {
-
-            model.addAttribute("user", username);
-
-            if (user.getGrade() != null) {
-                model.addAttribute("userGrade", userService.getUser(username).getGrade());
+        }else if(passwordEncoder.matches(password, user.getPassword())) {
+            model.addAttribute("user", userService.getUser(name));
+            if (user.getGrade()!= null) {
+                model.addAttribute("grade", userService.getgrade(name));
             }
             if (user.getRoles().contains("ADMIN")) {
-                model.addAttribute("admin", true);
                 return "admin";
             }
-
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                model.addAttribute("admin", true);
+            } else {
+                model.addAttribute("user", auth.getName());
+            }
             return "user";
         } else {
-
             return "login";
         }
-
-
     }
 }

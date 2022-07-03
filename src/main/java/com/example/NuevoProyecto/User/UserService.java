@@ -1,6 +1,7 @@
 package com.example.NuevoProyecto.User;
 
 
+import com.example.NuevoProyecto.Grade.Grade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +40,9 @@ public class UserService {
         user.setUser(username);
         return userRepository.save(user);
     }
-
+    public Grade getgrade(String username){
+        return userRepository.getById(username).getGrade();
+    }
 
 
 }
