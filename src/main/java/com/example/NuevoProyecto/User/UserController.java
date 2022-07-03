@@ -9,28 +9,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 
 @Controller
+@RequestMapping("/users")
 public class UserController {
 
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    GradeService gradeService;
+    private GradeService gradeService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
 
-    @GetMapping("/")
-    public  String index(){
-        return "index";
-    }
 
     @GetMapping("/signup")
     public String showSignUp() {
@@ -47,6 +45,7 @@ public class UserController {
 
         User newUser = new User(username, passwordEncoder.encode(password), lastName);
         userService.addUser(newUser);
+        loginDisplay(model);
         return "login";
     }
 
@@ -61,6 +60,7 @@ public class UserController {
     public String loginUser(@RequestParam String name,@RequestParam String password, Model model){
         User user=userService.getUser(name);
         if(user==null) {
+
             return "signup";
         }else if(passwordEncoder.matches(password, user.getPassword())) {
             model.addAttribute("user", userService.getUser(name));
@@ -74,11 +74,26 @@ public class UserController {
             if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
                 model.addAttribute("admin", true);
             } else {
-                model.addAttribute("user", auth.getName());
+                model.addAttribute("username", auth.getName());
             }
             return "user";
-        } else {
-            return "login";
+        }
+        return "login";
+    }
+
+
+
+        private void loginDisplay(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
+            model.addAttribute("isLogged", true);
+            if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                model.addAttribute("admin", true);
+            } else {
+                model.addAttribute("username", userService.getUser(auth.getName()));
+            }
         }
     }
+
+
 }

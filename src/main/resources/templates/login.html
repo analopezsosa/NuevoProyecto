@@ -5,24 +5,24 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Login - Brand</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
-    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
-    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="/assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="/assets/fonts/simple-line-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
-    <link rel="stylesheet" href="assets/css/vanilla-zoom.min.css">
+    <link rel="stylesheet" href="/assets/css/vanilla-zoom.min.css">
 </head>
 
 <body>
     <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
-        <div class="container"><a class="navbar-brand logo" href="index.html">IES Rey Juan Carlos</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a class="navbar-brand logo" href="/">IES Rey Juan Carlos</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="/">Inico</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="login" style="color: var(--bs-teal);">Log in</a></li>
-                    <li class="nav-item"><a class="nav-link" href="signup" style="color: var(--bs-teal);">Sign up</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/users/login" style="color: var(--bs-teal);">Log in</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/users/signup" style="color: var(--bs-teal);">Sign up</a></li>
                 </ul>
             </div>
         </div>
@@ -34,13 +34,14 @@
                     <h2 class="text-info">Log In</h2>
                     <p>Introduce tu nombre de usuario y tu contraseña</p>
                 </div>
-                <form data-aos="fade-up" data-aos-once="true" action="/login" method="post"  style="border-top-color: var(--bs-teal);">
+                <form data-aos="fade-up" data-aos-once="true" action="/users/login" method="post"  style="border-top-color: var(--bs-teal);">
                     <div class="mb-3"><label>Usuario</label><input class="form-control" type="text" name="username" required=""></div>
                     <div class="mb-3"><label>Contraseña</label><input class="form-control" type="password" name="password" required="" minlength="8"></div>
-                    <div class="mb-3"><a href="/signup" style="color: var(--bs-teal);">Todavia no tienes cuenta? Registrate aquí</a></div>
+                    <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Log In</button>
+                    <div class="mb-3"><a href="/users/signup" style="color: var(--bs-teal);">Todavia no tienes cuenta? Registrate aquí</a></div>
                     <div class="mb-3"><a href="/usuarioNoRegistrado" style="color: var(--bs-teal);">Acceder como invitado</a></div>
 
-                    <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Log In</button>
+
                 </form>
             </div>
         </section>
@@ -50,12 +51,12 @@
             <p>© 2022 Práctica DWS&nbsp;</p>
         </div>
     </footer>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/bs-init.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/js/bs-init.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
-    <script src="assets/js/vanilla-zoom.js"></script>
-    <script src="assets/js/theme.js"></script>
+    <script src="/assets/js/vanilla-zoom.js"></script>
+    <script src="/assets/js/theme.js"></script>
 </body>
 
 </html>
