@@ -29,7 +29,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {/*
+    protected void configure(HttpSecurity http) throws Exception {
+        /*
 // Public pages
     http.authorizeRequests().antMatchers("/").permitAll();
     http.authorizeRequests().antMatchers("/login").permitAll();
@@ -40,7 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
 // Private pages (all other pages)
-        http.authorizeRequests().anyRequest().authenticated();
+        http.authorizeRequests().anyRequest().authenticated();*/
 // Login form
         http.formLogin().loginPage("/login");
         http.formLogin().usernameParameter("username");
@@ -51,9 +52,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.logout().logoutSuccessUrl("/");
 // Disable CSRF at the moment
         http.csrf().disable();
-    }
 
-*/}
+
+}
 
     @Bean
     public PasswordEncoder passwordEncoder() {
