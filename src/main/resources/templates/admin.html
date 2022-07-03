@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Blog - Brand</title>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+    <link rel="stylesheet" href="/assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="/assets/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+    <link rel="stylesheet" href="/assets/css/vanilla-zoom.min.css">
+</head>
+
+<body>
+<nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
+    <div class="container"><a class="navbar-brand logo" href="/">IES Rey Juan Carlos</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="navbar-nav ms-auto">
+                <form method="post" action="/">
+
+                    <button class="dropdown-item"  style="color: var(--bs-red);padding: 0px;" type="submit">Cerrar Sesión</button>
+                </form>
+            </ul>
+        </div>
+    </div>
+</nav>
+<main class="page blog-post-list">
+    <section class="clean-block clean-form dark">
+        <div class="container">
+            <div class="block-heading">
+                <h2 class="text-info">Hola {{user.user}}, ADMINISTRADOR</h2>
+
+
+                <div class="row" style="height: 304.797px;margin: 28px;">
+
+                    {{#admin}}
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title" style="color: var(--bs-teal);">Matricula a alguien en algún curso</h4>
+                                <form action="joingrade" method="post" style="border-style: none;border-top-color: var(--bs-teal);">
+                                    <input type="hidden" name="_csrf" value="{{token}}"/>
+                                    <div class="mb-3"><label>Nombre de usuario</label><input class="form-control" type="text" name="username"></div>
+                                    <div class="mb-3"><label>ID del curso</label><input class="form-control" type="number" name="id"></div>
+                                    <button class="btn btn-primary" type="submit" style="margin: 14px;background: var(--bs-teal);">Matricular</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {{/admin}}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="clean-block clean-blog-list dark" style="height: 800px;">
+        <div class="container">
+
+            <div class="block-heading">
+                <h2 class="text-info">Funcionalidades</h2>
+            </div>
+            <div class="row">
+
+
+                {{#admin}}
+                <div class="col-lg-4">
+                    <div class="card clean-testimonial-item border-0 rounded-0">
+                        <div class="card-body"><a class="btn btn-primary" role="button" style="margin: 7px;background: var(--bs-teal);" href="/grades/">Ver los cursos</a></div>
+                        <div class="card-body"><a class="btn btn-primary" role="button" style="margin: 7px;background: var(--bs-teal);" href="/subjects/">Ver las asignaturas</a></div>
+                    </div>
+                </div>
+
+                {{/admin}}
+
+                <div class="col-lg-4">
+                    <div class="card clean-testimonial-item border-0 rounded-0">
+                        <div class="card-body"><a class="btn btn-primary" role="button" style="margin: 7px;background: var(--bs-gray-600);" href="/">Volver a la página de inicio</a></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+</main>
+<footer class="page-footer dark">
+    <div class="footer-copyright">
+        <p>© 2022 Práctica DWS&nbsp;</p>
+    </div>
+</footer>
+<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="/assets/js/bs-init.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+<script src="/assets/js/vanilla-zoom.js"></script>
+<script src="/assets/js/theme.js"></script>
+</body>
+
+</html>

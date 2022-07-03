@@ -74,6 +74,8 @@ public class UserController {
                 model.addAttribute("notgrade",true);
             }
             if (user.getRoles().contains("ADMIN")) {
+                model.addAttribute("admin",true);
+                model.addAttribute("isLogged",true);
                 return "admin";
             }
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -133,7 +135,7 @@ public class UserController {
         if (exist != null) {
             model.addAttribute("grade", gradeService.getGrade(id));
             //loginDisplay(model);
-            return "viewsubjects";
+            return "grade";
         }
         return "error";
     }
