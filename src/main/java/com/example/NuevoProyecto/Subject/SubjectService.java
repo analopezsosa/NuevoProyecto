@@ -5,7 +5,9 @@ import org.owasp.html.Sanitizers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SubjectService {
@@ -46,8 +48,11 @@ public class SubjectService {
     }
 
     public Subject getSubject(long id){
-
-        return subjectRepository.getById(id);
+        Optional<Subject> subject = subjectRepository.findById(id);
+        if(subject.isEmpty()){
+            return null;
+        }
+        return subject.get();
     }
 
     public Subject deleteSubject(long id){
