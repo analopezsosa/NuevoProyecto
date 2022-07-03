@@ -77,20 +77,19 @@ public class SubjectController {
         return "editsubject";
     }*/
     @PostMapping("/edit")
-    public String editSubject(@RequestParam long id, @RequestParam String name, @RequestParam int subjectNumber, @RequestParam String description, Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-            model.addAttribute("403", true);
-            return "error";
+    public String editSubject(@RequestParam long id, @RequestParam String name, @RequestParam int subjectNumber, @RequestParam String description, Model model, HttpSession session){
+        String infoname = ( String) session.getAttribute("user");
+        User u = userService.getUser(infoname);
+        if(u.getRoles().contains("ADMIN")){
+            model.addAttribute("admin",true);
         }
-        loginDisplay(model);
-
         Subject editThisSubject = subjectService.getSubject(id);
         if(editThisSubject != null){
             editThisSubject.setName(name);
             editThisSubject.setSubjectNumber(subjectNumber);
             editThisSubject.setDescription(Sanitizers.FORMATTING.sanitize(description));
             subjectService.addSubject(editThisSubject);
+            model.addAttribute("subjects",subjectService.getSubjectList());
             return "viewsubjects";
         }
 /*
