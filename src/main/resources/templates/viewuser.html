@@ -32,24 +32,15 @@
     <section class="clean-block clean-blog-list dark" style="height: 800px;">
         <div class="container">
             <div class="block-heading">
-                <h2 class="text-info">Usuarios</h2>
+                <h2 class="text-info">Usuario {{user.user}}</h2>
             </div>
 
-
-            <form method="get" action="filter">
-                <div class="mb-3"><label>Usuario</label><input class="form-control" type="search" name="username" ></div>
-                <div class="mb-3"><label>Apellido</label><input class="form-control" type="search" name="lastName"></div>
-                <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Filtrar</button>
-
-            </form>
-
-
-
             <div class="block-content" style="border-top-style: solid;border-top-color: var(--bs-teal);">
-                <h3 class="text-info">Nombre de usuario, Apellido</h3>
-                {{#users}}
-                - <a href="/users/{{user}}">{{user}},  {{lastName}}</a> <br>
-                {{/users}}
+                <h3 class="text-info">Datos personales</h3>
+                <p>Nombre: {{user.user}}</p>
+                <p>Apellidos: {{user.lastName}}</p>
+                <p>Pertenece al curso:                 <a href="/grades/{{user.grade.id}}">- {{user.grade}}, {{user.grade.gradeNumber}} ID del curso: {{user.grade.id}} </a><br>
+                </p>
             </div>
             <div class="block-content" style="border-top-style: solid;border-top-color: var(--bs-teal);height: auto;">
 

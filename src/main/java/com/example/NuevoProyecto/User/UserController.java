@@ -11,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -116,6 +119,42 @@ public class UserController {
         }else{
             return "error";
         }
+    }
+
+
+    @PersistenceContext
+    private EntityManager entityManager;
+    @GetMapping("/filter")
+    public String filterUsers(Model model, @RequestParam(required = false, name= "username") String username, @RequestParam(required = false, name = "lastName") String lastName){
+        if (username!="" && lastName!=""){
+            TypedQuery<User> q1 = entityManager.createQuery("SELECT u FROM User u where u.user = :username  and u.lastName= :lastName",User.class);
+            q1.setParameter("lastName",lastName).setParameter("username",username);
+            model.addAttribute("users", q1.getResultList());
+        }
+        else if (username!=""){
+            TypedQuery<User> q2 = entityManager.createQuery("SELECT u FROM User u WHERE u.user = :username",User.class);
+            model.addAttribute("users", q2.setParameter("username",username).getResultList());
+        }
+        else if (lastName!=""){
+            TypedQuery<User> q2 = entityManager.createQuery("SELECT u FROM User u WHERE u.lastName = :lastName",User.class);
+            model.addAttribute("users", q2.setParameter("lastName",lastName).getResultList());
+        }
+        else{
+            model.addAttribute("users",userService.getUsers());
+        }
+
+        return "viewusers";
+    }
+
+
+    @GetMapping("/{user}")
+    public String viewuser(Model model,@PathVariable String user){
+        User u = userService.getUser(user);
+        if(u != null){
+            model.addAttribute("user",userService.getUser(user));
+            return "viewuser";
+        }
+        return "error";
     }
 
 
