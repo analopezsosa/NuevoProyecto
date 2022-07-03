@@ -51,7 +51,6 @@ public class UserController {
 
     @GetMapping("/login")
     public String showLogin() {
-        System.out.println("Primero");
         return "login";
     }
 
@@ -60,12 +59,10 @@ public class UserController {
 
         User user=userService.getUser(username);
         session.setAttribute("user",username);
-        System.out.println("Segundo");
         if(user==null) {
 
             return "signup";
         }else if(passwordEncoder.matches(password, user.getPassword())) {
-            System.out.println("Tercero");
             model.addAttribute("user", userService.getUser(username));
             if (user.getGrade()!= null) {
                 model.addAttribute("grade", userService.getgrade(username));
@@ -82,7 +79,7 @@ public class UserController {
             if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
                 model.addAttribute("admin", true);
             } else {
-                System.out.println("Cuarto");
+
                 model.addAttribute("username", auth.getName());
             }
             return "user";
