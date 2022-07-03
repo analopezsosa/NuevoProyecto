@@ -30,7 +30,7 @@
 </nav>
 
 <main class="page blog-post-list">
-  <section class="clean-block clean-blog-list dark" style="height: 1800px;">
+  <section class="clean-block clean-blog-list dark" style="height: 3800px;">
     <div class="container">
       <div class="block-heading">
         <h2 class="text-info">Asignaturas</h2>
@@ -54,7 +54,7 @@
             <h2 class="text-info">Crear asignatura</h2>
             <p>Introduce el nombre y el número de la asignatura que desees crear.</p>
           </div>
-          <form data-aos="fade-up" data-aos-once="true" action="/subjects/creates" method="post" style="border-top-color: var(--bs-teal);">
+          <form data-aos="fade-up" data-aos-once="true" action="/subjects/create" method="post" style="border-top-color: var(--bs-teal);">
             <input type="hidden" name="_csrf" value="{{token}}"/>
             <div class="mb-3"><label>Nuevo nombre</label><input class="form-control" type="text" name="name"></div>
             <div class="mb-3"><label>Nuevo número</label><input class="form-control" type="number" name="subjectNumber" ></div>

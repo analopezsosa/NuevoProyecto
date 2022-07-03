@@ -44,18 +44,17 @@ public class GradeController {
 
 
     @GetMapping("/create")
-    public String createGrade(Model model,@RequestParam String name,@RequestParam int gradeNumber,@RequestParam String teacher){
-        loginDisplay(model);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        if (userService.getUser(username)==null){
-
-            model.addAttribute("error",true);
-            return "creategrade";
+    public String createGrade(Model model,@RequestParam String name,@RequestParam int gradeNumber,@RequestParam String teacher, HttpSession session){
+        String infoname = ( String) session.getAttribute("user");
+        User u = userService.getUser(infoname);
+        if(u.getRoles().contains("ADMIN")){
+            model.addAttribute("admin",true);
         }
+
         Grade grade = new Grade(name,gradeNumber,teacher);
-        gradeService.saveGrade(grade);
+        gradeService.gradeRepository.save(grade);
         model.addAttribute("grade",grade);
+        model.addAttribute("grades",gradeService.gradeList());
         return "index";
     }
 

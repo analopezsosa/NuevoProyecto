@@ -43,7 +43,7 @@ public class SubjectController {
     }
 
 
-    @PostMapping("/creates")
+    @PostMapping("/create")
     public String createSubject(@RequestParam String name, @RequestParam int subjectNumber, @RequestParam String description, Model model, HttpSession session){
         String infoname = ( String) session.getAttribute("user");
         User u = userService.getUser(infoname);
