@@ -45,12 +45,25 @@
 
         </div>
 
-        {{#admin}}
+
         <div class="container">
             <div class="row">
                 <div class="col">
-
+                    <section class="position-relative py-4 py-xl-5">
+                        <div class="container">
+                            <div class="block-heading">
+                                <h2 class="text-info">Eliminar curso</h2>
+                                <p>Introduce la ID del curso que desees eliminar.</p>
+                            </div>
+                            <form data-aos="fade-up" data-aos-once="true" action="/grades/removegrade" method="post" style="border-top-color: var(--bs-teal);">
+                                <input type="hidden" name="_csrf" value="{{token}}"/>
+                                <div class="mb-3"><label>ID</label><input class="form-control" type="number" name="id" required=""></div>
+                                <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Send</button>
+                            </form>
+                        </div>
+                    </section>
                 </div>
+
                 <div class="col">
                     <section class="position-relative py-4 py-xl-5">
                         <div class="container">
@@ -66,17 +79,30 @@
                                 <div class="mb-3"><label>Profesor</label><input class="form-control" type="text"name="teacher" required=""></div>
 
                                 <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Send</button>
-                                <a class="btn btn-primary" role="button" href="viewgrades.html" style="margin: 14px;background: var(--bs-gray-500);">Volver atrás</a>
                             </form>
                         </div>
                     </section>
                 </div>
+
                 <div class="col">
+                    <section class="position-relative py-4 py-xl-5">
+                        <div class="container">
+                            <div class="block-heading">
+                                <h2 class="text-info">Eliminar usuarios</h2>
+                                <p>Introduce la ID del curso del que desees eliminar sus usuarios.</p>
+                            </div>
+                            <form data-aos="fade-up" data-aos-once="true" action="removeUsers" method="post" style="border-top-color: var(--bs-teal);">
+                                <input type="hidden" name="_csrf" value="{{token}}"/>
+                                <div class="mb-3"><label>ID</label><input class="form-control" type="number" name="id" required=""></div>
+                                <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Send</button>
+                            </form>
+                        </div>
+                    </section>
 
                 </div>
             </div>
         </div>
-        {{/admin}}
+
 
 
     </section>
