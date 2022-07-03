@@ -129,6 +129,7 @@ public class GradeController {
         loginDisplay(model);
         model.addAttribute("admin",true); //esto no se muy bien si hay necesidad de volver a indicar si es admin o lo guarda
         model.addAttribute("isLogged",true); //esto igual
+        model.addAttribute("grades",gradeService.gradeList());
         return "viewgrades";
     }
 
