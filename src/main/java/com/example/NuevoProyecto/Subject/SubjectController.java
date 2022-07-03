@@ -113,13 +113,12 @@ public class SubjectController {
 */
 
     @PostMapping("/addtograde")
-    public String addingSubjectToGrade(@RequestParam long idS, @RequestParam long idG, Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-            model.addAttribute("403", true);
-            return "error";
+    public String addingSubjectToGrade(@RequestParam long idS, @RequestParam long idG, Model model,HttpSession session){
+        String infoname = ( String) session.getAttribute("user");
+        User u = userService.getUser(infoname);
+        if(u.getRoles().contains("ADMIN")){
+            model.addAttribute("admin",true);
         }
-        loginDisplay(model);
         Subject subjectToAdd = subjectService.getSubject(idS);
         if(subjectToAdd!=null){
             Grade g = gradeService.getGrade(idG);
@@ -129,8 +128,8 @@ public class SubjectController {
             gradeService.addGrade(g);
             subjectToAdd.getGrades().add(g);
 
-            model.addAttribute("grade",gradeService.getGrade(idG));
-            return "viewsubjectsbygrade";
+            model.addAttribute("subjects",subjectService.getSubjectList());
+            return "viewsubjects";
         }
         return "error";
     }
