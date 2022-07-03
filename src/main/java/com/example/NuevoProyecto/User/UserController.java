@@ -9,10 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -129,5 +126,15 @@ public class UserController {
             }
     }
 
-
+    @GetMapping("/grades/{id}")
+    public String showGrade(Model model,@PathVariable long id) {
+        System.out.println("si ve el cursp");
+        Grade exist = gradeService.getGrade(id);
+        if (exist != null) {
+            model.addAttribute("grade", gradeService.getGrade(id));
+            //loginDisplay(model);
+            return "viewsubjects";
+        }
+        return "error";
+    }
 }

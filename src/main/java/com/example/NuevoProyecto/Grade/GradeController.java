@@ -91,15 +91,14 @@ public class GradeController {
             return "grade";
         }
     }
-
-    @GetMapping("/{id}")
+    @GetMapping("/grades/{id}")
     public String showGrade(Model model,@PathVariable long id) {
-
+        System.out.println("si ve el cursp");
         Grade exist = gradeService.getGrade(id);
         if (exist != null) {
-            model.addAttribute("grade", exist);
-            loginDisplay(model);
-            return "grade";
+            model.addAttribute("grade", gradeService.getGrade(id));
+            //loginDisplay(model);
+            return "viewsubjects";
         }
         return "error";
     }
