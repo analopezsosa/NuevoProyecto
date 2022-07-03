@@ -42,7 +42,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title" style="color: var(--bs-teal);">Matricula a alguien en algún curso</h4>
-                                <form action="joingrade" method="post" style="border-style: none;border-top-color: var(--bs-teal);">
+                                <form action="/users/joingrade" method="post" style="border-style: none;border-top-color: var(--bs-teal);">
                                     <input type="hidden" name="_csrf" value="{{token}}"/>
                                     <div class="mb-3"><label>Nombre de usuario</label><input class="form-control" type="text" name="username"></div>
                                     <div class="mb-3"><label>ID del curso</label><input class="form-control" type="number" name="id"></div>

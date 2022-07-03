@@ -121,6 +121,34 @@ public class UserController {
         }
     }
 
+    @PostMapping("/joingrade")
+    public String joinGrade(@RequestParam String username,@RequestParam long id, Model model,HttpSession session){
+        String infoname = (String) session.getAttribute("user");
+        User u = userService.getUser(infoname);
+        System.out.println("hasta aqui?");
+        if(u.getRoles().contains("ADMIN")){
+            System.out.println("sabe que eres adminnnnn");
+            User userToJoin = userService.getUser(username);
+            Grade gradeToJoin=gradeService.getGrade(id);
+
+            if (userToJoin.getGrade()==null) {
+
+                userToJoin.setGrade(gradeToJoin);
+                gradeToJoin.addUser(userToJoin);
+                userService.addUser(userToJoin);
+                gradeService.addGrade(gradeToJoin);
+
+                model.addAttribute("admin",true);
+                model.addAttribute("user",u);
+                return "admin";
+
+            }else{
+                return "error";
+            }
+        }
+        return "error";
+
+    }
 
     @PersistenceContext
     private EntityManager entityManager;
