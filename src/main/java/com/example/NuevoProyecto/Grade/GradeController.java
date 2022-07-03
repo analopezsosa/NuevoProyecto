@@ -95,7 +95,7 @@ public class GradeController {
         }
     }
     @GetMapping("/{id}")
-    public String showGrade(Model model,@PathVariable long id) {
+    public String showGrade(Model model,@PathVariable long id) {//AQUI LA SESION
         System.out.println("si ve el cursp");
         Grade exist = gradeService.getGrade(id);
         if (exist != null) {
@@ -107,7 +107,7 @@ public class GradeController {
     }
 
     @PostMapping("/removegrade")
-    public String removegrade(@PathVariable long id, Model model) {
+    public String removegrade(@RequestParam long id, Model model) {
 
         if(gradeService.getGrade(id)!=null) {
             removeUsers(id);
@@ -121,7 +121,7 @@ public class GradeController {
         return "error";
     }
 
-    public void removeUsers(Long id){
+    public void removeUsers( Long id){
         Grade grade=gradeService.getGrade(id);
         List<User> userToDeleteFromGrade=grade.getUserList();
         int x=userToDeleteFromGrade.size();
