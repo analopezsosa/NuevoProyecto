@@ -28,6 +28,13 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
 
+    @GetMapping("/")
+    public String showusers(Model model) {
+        loginDisplay(model);
+        model.addAttribute("users",userService.getUsers());
+        return "viewusers";
+    }
+
 
     @GetMapping("/signup")
     public String showSignUp() {

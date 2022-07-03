@@ -28,7 +28,7 @@ public class GradeController {
 
 
     @GetMapping("/")
-    public String showGrades(Model model, @RequestParam(required = false) String name) {
+    public String showGrades(Model model) {
         loginDisplay(model);
         model.addAttribute("grades",gradeService.gradeList());
         return "viewgrades";
