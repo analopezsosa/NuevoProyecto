@@ -75,6 +75,7 @@ public class UserController {
             }
             if (user.getRoles().contains("ADMIN")) {
                 model.addAttribute("admin",true);
+                model.addAttribute("isLogged",true);
                 return "admin";
             }
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
