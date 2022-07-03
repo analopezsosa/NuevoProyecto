@@ -20,7 +20,7 @@
     <div class="container"><a class="navbar-brand logo" href="/">IES Rey Juan Carlos</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="navbar-nav ms-auto">
-                <form method="post" action="/logout">
+                <form method="post" action="/">
 
                     <button class="dropdown-item"  style="color: var(--bs-red);padding: 0px;" type="submit">Cerrar Sesión</button>
                 </form>
@@ -36,7 +36,7 @@
 
 
                 <div class="row" style="height: 304.797px;margin: 28px;">
-
+                    {{#notgrade}}
                     <div class="col">
                         <div class="card">
                             <div class="card-body">
@@ -49,7 +49,7 @@
                             </div>
                         </div>
                     </div>
-
+                    {{/notgrade}}
 
                     {{#admin}}
                     <div class="col">
@@ -73,6 +73,7 @@
     <section class="clean-block clean-blog-list dark" style="height: 800px;">
         <div class="container">
             {{#user}}
+            {{#yesgrade}}
             <div class="block-heading">
                 <h2 class="text-info">Consulta tus asignaturas</h2>
             </div>
@@ -80,9 +81,10 @@
 
                 <div class="col-lg-4">
                     <div class="card clean-testimonial-item border-0 rounded-0">
-                        <div class="card-body"><a class="btn btn-primary" role="button" style="margin: 7px;background: var(--bs-teal);" href="/grades/{{grade.name}}">Ver cursos</a></div>
+                        <div class="card-body"><a class="btn btn-primary" role="button" style="margin: 7px;background: var(--bs-teal);" href="/grades/{{grade.name}}">{{grade.name}}</a></div>
                     </div>
                 </div>
+                {{/yesgrade}}
                 {{/user}}
 
                 {{#admin}}

@@ -1,5 +1,7 @@
 package com.example.NuevoProyecto.User;
 
+import com.example.NuevoProyecto.Grade.Grade;
+import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.security.core.Authentication;
 import com.example.NuevoProyecto.Grade.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +70,9 @@ public class UserController {
             model.addAttribute("user", userService.getUser(username));
             if (user.getGrade()!= null) {
                 model.addAttribute("grade", userService.getgrade(username));
+                model.addAttribute("yesgrade",true);
+            }else{
+                model.addAttribute("notgrade",true);
             }
             if (user.getRoles().contains("ADMIN")) {
                 return "admin";
@@ -85,17 +90,42 @@ public class UserController {
     }
 
 
+    @PostMapping("/joingradeU")
+    public String joinGradeU(@RequestParam long id, Model model){
+        loginDisplay(model);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userToJoin = auth.getName();
+        System.out.println(userToJoin);
+        //User userToJoin = userService.userRepository.getById(infoname);
+        Grade gradeToJoin=gradeService.getGrade(id);
+        if (userService.getUser(userToJoin).getGrade()==null) {
+            System.out.println("\nno tiene grade");
+            userService.getUser(userToJoin).setGrade(gradeToJoin);
+            gradeToJoin.addUser(userService.getUser(userToJoin));
+            userService.addUser(userService.getUser(userToJoin));
+            gradeService.addGrade(gradeToJoin);
+            //model.addAttribute("user",auth.getName());
+            model.addAttribute("user",userService.getUser(userToJoin));
+            model.addAttribute("yesgrade",true);
+            model.addAttribute("grade",gradeToJoin);
+            return "user";
+        }else{
+            return "error";
+        }
+    }
+
 
         private void loginDisplay(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
-            model.addAttribute("isLogged", true);
-            if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-                model.addAttribute("admin", true);
-            } else {
-                model.addAttribute("username", userService.getUser(auth.getName()));
+
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
+                model.addAttribute("isLogged", true);
+                if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                    model.addAttribute("admin", true);
+                } else {
+                    model.addAttribute("username", userService.getUser(auth.getName()));
+                }
             }
-        }
     }
 
 
