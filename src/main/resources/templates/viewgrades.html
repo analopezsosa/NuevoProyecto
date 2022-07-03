@@ -94,6 +94,8 @@
                             <form data-aos="fade-up" data-aos-once="true" action="/grades/removeuserfromgrade" method="post" style="border-top-color: var(--bs-teal);">
                                 <input type="hidden" name="_csrf" value="{{token}}"/>
                                 <div class="mb-3"><label>ID</label><input class="form-control" type="number" name="id" required=""></div>
+                                <div class="mb-3"><label>Usuario</label><input class="form-control" type="text" name="name" required=""></div>
+
                                 <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Send</button>
                             </form>
                         </div>

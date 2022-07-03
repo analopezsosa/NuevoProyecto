@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("/grades")
@@ -106,16 +107,31 @@ public class GradeController {
     }
 
     @PostMapping("/removegrade")
-    public String deleteTeam(@PathVariable long id, Model model) {
+    public String removegrade(@PathVariable long id, Model model) {
 
         if(gradeService.getGrade(id)!=null) {
-           gradeService.deleteGrade(id);
+            removeUsers(id);
+            gradeService.deleteGrade(id);
             loginDisplay(model);
+            model.addAttribute("admin",true); //esto no se muy bien si hay necesidad de volver a indicar si es admin o lo guarda
+            model.addAttribute("isLogged",true); //esto igual
+            model.addAttribute("grades",gradeService.gradeList());
             return "viewgrades";
         }
         return "error";
     }
 
+    public void removeUsers(Long id){
+        Grade grade=gradeService.getGrade(id);
+        List<User> userToDeleteFromGrade=grade.getUserList();
+        int x=userToDeleteFromGrade.size();
+        for (int i=0;i<x;i++) {
+            userToDeleteFromGrade.get(i).deleteGrade(grade);
+        }
+        grade.deleteUserList(userToDeleteFromGrade);
+        gradeService.addGrade(grade);
+
+    }
 
 
     @PostMapping("/editgrade")
@@ -135,12 +151,16 @@ public class GradeController {
 
 
     @PostMapping("/removeuserfromgrade")
-    public String removeUserFromGrade(@RequestParam String name,@RequestParam long id){
+    public String removeUserFromGrade(Model model, @RequestParam String name,@RequestParam long id){
         User user=userService.getUser(name);
         Grade grade=gradeService.getGrade(id);
         user.deleteGrade(grade);
         grade.deleteUser(user);
         gradeService.addGrade(grade);
+        loginDisplay(model);
+        model.addAttribute("admin",true); //esto no se muy bien si hay necesidad de volver a indicar si es admin o lo guarda
+        model.addAttribute("isLogged",true); //esto igual
+        model.addAttribute("grades",gradeService.gradeList());
         return "viewgrades";
     }
 
