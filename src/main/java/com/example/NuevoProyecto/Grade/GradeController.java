@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/grades")
 public class GradeController {
@@ -28,8 +30,13 @@ public class GradeController {
 
 
     @GetMapping("/")
-    public String showGrades(Model model) {
-        loginDisplay(model);
+    public String showGrades(Model model, HttpSession session) {
+        String user = (String)session.getAttribute("user");
+        //loginDisplay(model);
+        User aux = userService.getUser(user);
+        if(aux.getRoles().contains("ADMIN")){
+            model.addAttribute("admin",true);
+        }
         model.addAttribute("grades",gradeService.gradeList());
         return "viewgrades";
     }
