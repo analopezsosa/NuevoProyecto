@@ -55,7 +55,7 @@
                 <h2 class="text-info">Eliminar asignatura</h2>
                 <p>Introduce la ID de la asignatura que desees eliminar.</p>
               </div>
-              <form data-aos="fade-up" data-aos-once="true" action="/subjects/removesubject" method="post" style="border-top-color: var(--bs-teal);">
+              <form data-aos="fade-up" data-aos-once="true" action="/subjects/remove" method="post" style="border-top-color: var(--bs-teal);">
                 <input type="hidden" name="_csrf" value="{{token}}"/>
                 <div class="mb-3"><label>ID</label><input class="form-control" type="number" name="id" required=""></div>
                 <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Send</button>

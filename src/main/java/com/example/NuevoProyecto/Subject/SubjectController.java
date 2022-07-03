@@ -149,19 +149,19 @@ public class SubjectController {
     }
 */
     @PostMapping("/remove")
-    public String removeSubject( @RequestParam Long id, Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-            model.addAttribute("403", true);
-            return "error";
+    public String removeSubject( @RequestParam Long id, Model model, HttpSession session){
+        String infoname = ( String) session.getAttribute("user");
+        User u = userService.getUser(infoname);
+        if(u.getRoles().contains("ADMIN")){
+            model.addAttribute("admin",true);
         }
-        loginDisplay(model);
         Subject subject = subjectService.getSubject(id);
 
         if(subject != null){
 
             deleteGrades(id);
             subjectService.deleteSubject(id);
+            model.addAttribute("subjects",subjectService.getSubjectList());
 
             return "viewsubjects";
         }
