@@ -133,6 +133,16 @@ public class GradeController {
     }
 
 
+    @PostMapping("/removeuserfromgrade")
+    public String removeUserFromGrade(@RequestParam String name,@RequestParam long id){
+        User user=userService.getUser(name);
+        Grade grade=gradeService.getGrade(id);
+        user.deleteGrade(grade);
+        grade.deleteUser(user);
+        gradeService.addGrade(grade);
+        return "viewgrades";
+    }
+
 
     private void loginDisplay(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

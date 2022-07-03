@@ -45,7 +45,7 @@
 
         </div>
 
-
+        {{#admin}}
         <div class="container">
             <div class="row">
                 <div class="col">
@@ -91,7 +91,7 @@
                                 <h2 class="text-info">Eliminar usuarios</h2>
                                 <p>Introduce la ID del curso del que desees eliminar sus usuarios.</p>
                             </div>
-                            <form data-aos="fade-up" data-aos-once="true" action="removeUsers" method="post" style="border-top-color: var(--bs-teal);">
+                            <form data-aos="fade-up" data-aos-once="true" action="/grades/removeuserfromgrade" method="post" style="border-top-color: var(--bs-teal);">
                                 <input type="hidden" name="_csrf" value="{{token}}"/>
                                 <div class="mb-3"><label>ID</label><input class="form-control" type="number" name="id" required=""></div>
                                 <button class="btn btn-primary" type="submit" style="background: var(--bs-teal);">Send</button>
@@ -102,7 +102,7 @@
                 </div>
             </div>
         </div>
-
+        {{#admin}}
 
 
     </section>
