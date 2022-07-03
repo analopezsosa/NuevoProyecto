@@ -34,7 +34,8 @@
                     <h2 class="text-info">Sign up</h2>
                     <p>Elige un nombre de usuario y una contraseña, introduce tu apellido</p>
                 </div>
-                <form data-aos="fade-up" data-aos-once="true" style="border-top-color: var(--bs-teal);" method="post" action="/signup">
+                <form data-aos="fade-up" data-aos-once="true" style="border-top-color: var(--bs-teal);" method="post" action="/users/signup">
+                    <input type="hidden" name="_csrf" value="{{token}}"/>
                     <div class="mb-3"><label>Usuario</label><input class="form-control" type="text" name="username" required=""></div>
                     <div class="mb-3"><label>Contraseña</label><input class="form-control" type="password" name="password" required="" minlength="8"></div>
                     <div class="mb-3"><label>Apellido</label><input class="form-control" type="text" name="lastName" required=""></div>
