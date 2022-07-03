@@ -43,39 +43,22 @@ public class SubjectController {
     }
 
 
-    @GetMapping("/create")
-    public String showSubject(Model model) {
-
-        return "createsubject";
-    }
-
-
     @PostMapping("/create")
-    public String createSubject(@RequestParam String name, @RequestParam int subjectNumber, @RequestParam String description, Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-            model.addAttribute("403", true);
-            return "error";
+    public String createSubject(@RequestParam String name, @RequestParam int subjectNumber, @RequestParam String description, Model model, HttpSession session){
+        String infoname = ( String) session.getAttribute("user");
+        User u = userService.getUser(infoname);
+        if(u.getRoles().contains("ADMIN")){
+            model.addAttribute("admin",true);
         }
-        loginDisplay(model);
         Subject newsubject = new Subject(name, subjectNumber, Sanitizers.FORMATTING.sanitize(description));
+
+        //loginDisplay(model);
         subjectService.saveSubject(newsubject);
         model.addAttribute("subject",newsubject);
-
+        model.addAttribute("subjects",subjectService.getSubjectList());
         return "viewsubject";
     }
 
-    /*
-    @GetMapping("/edit")
-    public String showEdit(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))){
-            model.addAttribute("403", true);
-            return "error";
-        }
-        loginDisplay(model);
-        return "editsubject";
-    }*/
     @PostMapping("/edit")
     public String editSubject(@RequestParam long id, @RequestParam String name, @RequestParam int subjectNumber, @RequestParam String description, Model model, HttpSession session){
         String infoname = ( String) session.getAttribute("user");
@@ -92,25 +75,10 @@ public class SubjectController {
             model.addAttribute("subjects",subjectService.getSubjectList());
             return "viewsubjects";
         }
-/*
 
-        return "editedsubject";
-
- */
         return "error";
     }
-/*
-    @GetMapping("/{id}/addtograde")
-    public String showAddSubject(Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))){
-            model.addAttribute("403", true);
-            return "error";
-        }
-        loginDisplay(model);
-        return "addsubjecttograde";
-    }
-*/
+
 
     @PostMapping("/addtograde")
     public String addingSubjectToGrade(@RequestParam long idS, @RequestParam long idG, Model model,HttpSession session){
@@ -134,18 +102,7 @@ public class SubjectController {
         return "error";
     }
 
-/*
-    @GetMapping("/removesubject.html")
-    public String showRemove(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))){
-            model.addAttribute("403", true);
-            return "error";
-        }
-        loginDisplay(model);
-        return "removesubject";
-    }
-*/
+
     @PostMapping("/remove")
     public String removeSubject( @RequestParam Long id, Model model, HttpSession session){
         String infoname = ( String) session.getAttribute("user");
@@ -168,19 +125,9 @@ public class SubjectController {
 
 
     }
-/*
-    @GetMapping("/removesubjectfromgrade")
-    public String showRemoveFromGrade(Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))){
-            model.addAttribute("403", true);
-            return "error";
-        }
-        loginDisplay(model);
-        return "removesubjectfromgrade";
-    }
 
- */
+
+
     @PostMapping("/removefromgrade")
     public String remove(@RequestParam Long idS, @RequestParam Long idG, Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
