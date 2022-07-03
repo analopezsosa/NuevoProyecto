@@ -125,7 +125,7 @@ public class UserController {
                 }
             }
     }
-
+/*
     @GetMapping("/grades/{id}")
     public String showGrade(Model model,@PathVariable long id) {
         System.out.println("si ve el cursp");
@@ -137,4 +137,6 @@ public class UserController {
         }
         return "error";
     }
+
+ */
 }

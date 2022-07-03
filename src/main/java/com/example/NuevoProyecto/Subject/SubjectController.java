@@ -27,6 +27,7 @@ public class SubjectController {
 
     @GetMapping("/")
     public String showSubjects(Model model) {
+        loginDisplay(model);
         model.addAttribute("subjects", subjectService.getSubjectList());
         return "viewsubjects";
     }
