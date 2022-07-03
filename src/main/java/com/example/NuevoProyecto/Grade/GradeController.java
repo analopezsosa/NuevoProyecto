@@ -121,6 +121,18 @@ public class GradeController {
         }
     }
 
+    @PostMapping("/editgrade")
+    public String edited(Model model,@RequestParam long id, @RequestParam String name, @RequestParam int gradeNumber, @RequestParam String teacher){
+        Grade editThisGrade = gradeService.getGrade(id);
+
+        editThisGrade.setName(name);
+        editThisGrade.setGradeNumber(gradeNumber);
+        editThisGrade.setTeacher(teacher);
+        gradeService.addGrade(editThisGrade);
+        loginDisplay(model);
+        return "editedgrade";
+    }
+
 
 
 
