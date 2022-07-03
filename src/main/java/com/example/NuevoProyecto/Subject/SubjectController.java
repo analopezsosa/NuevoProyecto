@@ -76,7 +76,7 @@ public class SubjectController {
         loginDisplay(model);
         return "editsubject";
     }*/
-    @PostMapping("/{id}/edit")
+    @PostMapping("/edit")
     public String editSubject(@RequestParam long id, @RequestParam String name, @RequestParam int subjectNumber, @RequestParam String description, Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
