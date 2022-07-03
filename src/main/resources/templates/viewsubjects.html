@@ -71,7 +71,7 @@
                 <h2 class="text-info">Editar asignatura</h2>
                 <p>Introduce la ID de la asignatura que desees editar y los campos a cambiar.</p>
               </div>
-              <form data-aos="fade-up" data-aos-once="true" action="/subject/editsubject" method="post" style="border-top-color: var(--bs-teal);">
+              <form data-aos="fade-up" data-aos-once="true" action="/subjects/edit" method="post" style="border-top-color: var(--bs-teal);">
                 <input type="hidden" name="_csrf" value="{{token}}"/>
                 <div class="mb-3"><label>ID</label><input class="form-control" type="number" name="id" required=""></div>
                 <div class="mb-3"><label>Nuevo nombre</label><input class="form-control" type="text" name="name"></div>
