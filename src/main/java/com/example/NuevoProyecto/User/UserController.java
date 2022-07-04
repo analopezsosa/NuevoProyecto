@@ -2,9 +2,11 @@ package com.example.NuevoProyecto.User;
 
 import com.example.NuevoProyecto.Grade.Grade;
 import org.apache.tomcat.util.http.parser.HttpParser;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import com.example.NuevoProyecto.Grade.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -66,7 +68,10 @@ public class UserController {
 
     @PostMapping("/login")
     public String loginUser(@RequestParam String username,@RequestParam String password, Model model, HttpSession session){
-
+        SecurityContext context = SecurityContextHolder.getContext();
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,password);
+        context.setAuthentication(authenticationToken);
+        SecurityContextHolder.setContext(context);
         User user=userService.getUser(username);
         session.setAttribute("user",username);
         if(user==null) {
