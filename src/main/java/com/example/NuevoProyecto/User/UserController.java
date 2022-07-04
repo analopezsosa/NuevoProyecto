@@ -3,6 +3,7 @@ package com.example.NuevoProyecto.User;
 import com.example.NuevoProyecto.Grade.Grade;
 import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import com.example.NuevoProyecto.Grade.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -64,6 +65,7 @@ public class UserController {
         return "login";
     }
 
+
     @PostMapping("/login")
     public String loginUser(@RequestParam String username,@RequestParam String password, Model model, HttpSession session){
 
@@ -97,6 +99,39 @@ public class UserController {
         return "login";
     }
 
+/*
+    @PostMapping("/login")
+    public String loginUser(@RequestParam String username,@RequestParam String password, Model model){
+        User user=userService.getUser(username);
+        System.out.println("LLEga");
+        if(user==null) {
+            model.addAttribute("notRegistered",true);
+            return "signup";
+        }else if(passwordEncoder.matches(password, user.getPassword())) {
+            model.addAttribute("user", userService.getUser(username));
+            if (user.getGrade()!= null) {
+                model.addAttribute("grade", userService.getUser(username));
+            }
+            if (user.getRoles().contains("ADMIN")) {
+                System.out.println("2");
+                return "admin";
+            }
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            System.out.println(auth);
+
+            if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                model.addAttribute("admin", true);
+                System.out.println("3");
+            } else {
+                model.addAttribute("user", auth.getName());
+                System.out.println("4");
+            }
+            return "user";
+        } else {
+            model.addAttribute("error",true);
+            return "login";
+        }
+    }*/
 
     @PostMapping("/joingradeU")
     public String joinGradeU(@RequestParam long id, Model model,HttpSession session){
