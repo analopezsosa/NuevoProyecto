@@ -32,7 +32,7 @@ public class UserRESTController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping("user/{username}")
+    @GetMapping("/user/{username}")
     @JsonView(View.Base.class)
     public ResponseEntity<User> getUser(@PathVariable String username){
         User user = userService.getUser(username);
@@ -42,12 +42,12 @@ public class UserRESTController {
     }
     @PutMapping("/user/{username}")
     @JsonView(View.Base.class)
-    public ResponseEntity<User> updateUser(@PathVariable String user, @RequestBody User userToEdit) {
+    public ResponseEntity<User> updateUser(@PathVariable String username, @RequestBody User userToEdit) {
 
-        User user1=userService.getUser(user);
+        User user1=userService.getUser(username);
 
         if (user1 != null) {
-            userService.removeUser(user);
+            userService.removeUser(username);
             userService.addUser(userToEdit);
 
 
@@ -62,8 +62,8 @@ public class UserRESTController {
 
     @DeleteMapping("/user/{username}")
     @JsonView(View.Base.class)
-    public ResponseEntity<User> deleteUser(@PathVariable String user) {
-        User userToDelete = userService.removeUser(user);
+    public ResponseEntity<User> deleteUser(@PathVariable String username) {
+        User userToDelete = userService.removeUser(username);
         if (userToDelete != null) {
             return new ResponseEntity<>( HttpStatus.OK);
         } else {
