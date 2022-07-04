@@ -40,25 +40,17 @@
             </div>
             <div class="block-content">
                 <div class="faq-item">
-                    <h4 class="question">Cursos</h4>
-                    <div class="answer">
-                        <p>{{#grades}}
-                            - {{name}}, {{gradeNumber}}. ID del curso: {{id}} <br>
-                            {{#grade.subjects}}
-                            <br>- {{name}}, {{subjectNumber}}. ID de la asignatura: {{id}}
-                            {{/grade.subjects}}
-                            {{/grades}}</p>
+                    <div class="col-lg-4">
+                        <div class="card clean-testimonial-item border-0 rounded-0">
+                            <div class="card-body"><a class="btn btn-primary" role="button" style="margin: 7px;background: var(--bs-teal);" href="/grades/">Ver Cursos</a></div>
+                        </div>
                     </div>
                 </div>
-                <div style="background: var(--bs-teal);border: 1px solid var(--bs-teal) ;"></div>
                 <div class="faq-item">
-                    <h4 class="question">Asignaturas</h4>
-                    <div class="answer">
-                        <p>{{#subjects}}
-                            - {{name}}, {{subjectNumber}}. ID de la asignatura: {{id}} <br>
-                            Descripción de la asignatura: {{{description}}} <br>
-                            <br>
-                            {{/subjects}}</p>
+                    <div class="col-lg-4">
+                        <div class="card clean-testimonial-item border-0 rounded-0">
+                            <div class="card-body"><a class="btn btn-primary" role="button" style="margin: 7px;background: var(--bs-teal);" href="/subjects/">Ver asignaturas</a></div>
+                        </div>
                     </div>
                 </div>
                 <div class="faq-item">

@@ -35,10 +35,15 @@ public class SubjectController {
 
         String user = (String)session.getAttribute("user");
         loginDisplay(model);
+        if (user!=null){
         User aux = userService.getUser(user);
-        if(aux.getRoles().contains("ADMIN")){
+            if(aux.getRoles().contains("ADMIN")){
             model.addAttribute("admin",true);
+            }
+        }else {
+            model.addAttribute("notRegistered",true);
         }
+
         model.addAttribute("subjects", subjectService.getSubjectList());
 
         return "viewsubjects";

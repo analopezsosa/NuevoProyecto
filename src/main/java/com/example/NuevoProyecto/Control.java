@@ -61,20 +61,9 @@ public class Control {
     }
 
     @GetMapping("/notregistred")
-    public String notregistred(Model model){
-        model.addAttribute("grades",gradeService.gradeList());
-        List<Grade> aux= gradeService.gradeList();
-        int x=aux.size();
-        for (int i=0;i<x;i++) {
-            Grade exist=gradeService.getGrade(aux.get(i).getId());
-            if (exist!=null) {
-                long id=exist.getId();
-                model.addAttribute("grade", gradeService.getGrade(id));
-            }
+    public String notregistred(){
 
-        }
 
-        model.addAttribute("subjects", subjectService.getSubjectList());
         return "not_registred";
     }
 }

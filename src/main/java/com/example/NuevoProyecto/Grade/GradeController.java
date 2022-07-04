@@ -33,9 +33,14 @@ public class GradeController {
     public String showGrades(Model model, HttpSession session) {
         String user = (String)session.getAttribute("user");
         //loginDisplay(model);
-        User aux = userService.getUser(user);
-        if(aux.getRoles().contains("ADMIN")){
-            model.addAttribute("admin",true);
+        if (user!=null) {
+            User aux = userService.getUser(user);
+
+            if (aux.getRoles().contains("ADMIN")) {
+                model.addAttribute("admin", true);
+            }
+        }else {
+            model.addAttribute("notRegistered",true);
         }
         model.addAttribute("grades",gradeService.gradeList());
         return "viewgrades";
@@ -56,19 +61,29 @@ public class GradeController {
     }
 
     @GetMapping("/{id}")
-    public String showGrade(Model model,@PathVariable long id, HttpSession session) {//AQUI LA SESION
+    public String showGrade(Model model,@PathVariable long id, HttpSession session) {
         String infoname = (String) session.getAttribute("user");
-        User u = userService.getUser(infoname);
-        Grade exist = gradeService.getGrade(id);
-        if (exist != null) {
-            model.addAttribute("grade", gradeService.getGrade(id));
-            //loginDisplay(model);
-            if(u.getRoles().contains("ADMIN")){
-                model.addAttribute("admin",true);
+
+        if (infoname != null) {
+            User u = userService.getUser(infoname);
+            Grade exist = gradeService.getGrade(id);
+            if (exist != null) {
+                model.addAttribute("grade", gradeService.getGrade(id));
+                if (u.getRoles().contains("ADMIN")) {
+                    model.addAttribute("admin", true);
+                }
+                return "grade";
             }
-            return "grade";
+        } else {
+            model.addAttribute("notRegistered",true);
+            Grade exist = gradeService.getGrade(id);
+            if (exist != null) {
+                model.addAttribute("grade", gradeService.getGrade(id));
+                return "grade";
+            }
         }
-        return "error";
+            return "error";
+
     }
 
     @PostMapping("/removegrade")
