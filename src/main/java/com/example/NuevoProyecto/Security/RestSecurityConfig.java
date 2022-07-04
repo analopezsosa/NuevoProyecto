@@ -29,7 +29,7 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http)throws Exception{
         http.antMatcher("/api/**");
         // Private endpoints
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/user/").hasRole("USER");
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/user/").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/user/").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/user/{username}").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/user/{username}").hasRole("ADMIN");
