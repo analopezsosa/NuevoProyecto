@@ -43,7 +43,7 @@ public class GradeController {
     }
 
 
-    @GetMapping("/create")
+    @PostMapping("/create")
     public String createGrade(Model model,@RequestParam String name,@RequestParam int gradeNumber,@RequestParam String teacher, HttpSession session){
         String infoname = ( String) session.getAttribute("user");
         User u = userService.getUser(infoname);
@@ -55,7 +55,7 @@ public class GradeController {
         gradeService.gradeRepository.save(grade);
         model.addAttribute("grade",grade);
         model.addAttribute("grades",gradeService.gradeList());
-        return "index";
+        return "viewgrades";
     }
 
     @GetMapping("/join")
