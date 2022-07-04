@@ -29,7 +29,6 @@ public class GradeController {
     private PasswordEncoder passwordEncoder;
 
 
-
     @GetMapping("/")
     public String showGrades(Model model, HttpSession session) {
         String user = (String)session.getAttribute("user");
@@ -41,7 +40,6 @@ public class GradeController {
         model.addAttribute("grades",gradeService.gradeList());
         return "viewgrades";
     }
-
 
     @PostMapping("/create")
     public String createGrade(Model model,@RequestParam String name,@RequestParam int gradeNumber,@RequestParam String teacher, HttpSession session){
@@ -57,41 +55,6 @@ public class GradeController {
         return "error";
     }
 
-    @GetMapping("/join")
-    public String showJoin(Model model){
-        loginDisplay(model);
-        return "joingrade";
-    }
-
-    @PostMapping("/join")
-    public String joinGrade(@RequestParam long id, Model model){
-        loginDisplay(model);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        Grade grade= gradeService.getGrade(id);
-
-        User newMember;
-        if (username != null) {
-            newMember = userService.getUser(username);
-        } else {
-            newMember = null;
-        }
-        if (newMember==null) {
-            model.addAttribute("notRegistered",true);
-            return "signup";
-        } else if(grade==null) {
-            model.addAttribute("notRegistered",true);
-            return "creategrade";
-        }
-
-        else {
-            model.addAttribute("grade", gradeService.getGrade(id));
-            newMember.setGrade(grade);
-            userService.addUser(newMember);
-            gradeService.addGrade(grade);
-            return "grade";
-        }
-    }
     @GetMapping("/{id}")
     public String showGrade(Model model,@PathVariable long id, HttpSession session) {//AQUI LA SESION
         String infoname = (String) session.getAttribute("user");
