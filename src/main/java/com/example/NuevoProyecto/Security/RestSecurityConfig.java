@@ -29,21 +29,21 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http)throws Exception{
         http.antMatcher("/api/**");
         // Private endpoints
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/user/").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/user/").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/user").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/user").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/user/{username}").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/user/{username}").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/api/user/{username}").hasRole("ADMIN");
 
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/subjects/").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/subjects/{id}").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/subjects/").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/subjects").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/subjects/{id}").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/api/subjects/{id}").hasRole("ADMIN");
 
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/grades/").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/grades/{id}").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/grades/").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/grades").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/grades/{id}").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/api/grades/{id}").hasRole("ADMIN");
 

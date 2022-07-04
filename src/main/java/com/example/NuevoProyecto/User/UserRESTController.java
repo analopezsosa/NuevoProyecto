@@ -60,10 +60,10 @@ public class UserRESTController {
 
 
 
-    @DeleteMapping("/user/{username}")
+    @DeleteMapping("/user/{user}")
     @JsonView(View.Base.class)
-    public ResponseEntity<User> deleteUser(@PathVariable String username) {
-        User userToDelete = userService.removeUser(username);
+    public ResponseEntity<User> deleteUser(@PathVariable String user) {
+        User userToDelete = userService.removeUser(user);
         if (userToDelete != null) {
             return new ResponseEntity<>( HttpStatus.OK);
         } else {
