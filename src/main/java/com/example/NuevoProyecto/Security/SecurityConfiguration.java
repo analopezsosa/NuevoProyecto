@@ -49,9 +49,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/users/removefromgrade").hasRole("ADMIN");
 
 
-       // http.authorizeRequests().antMatchers("/grades/").hasAnyRole("USER","ADMIN");//Y AQUI
-        http.authorizeRequests().antMatchers("/grades/").permitAll();
-        http.authorizeRequests().antMatchers("/grades/{id}").hasAnyRole("USER","ADMIN");//QUIZA NR
+        http.authorizeRequests().antMatchers("/grades/").hasAnyRole("USER","ADMIN");
+        http.authorizeRequests().antMatchers("/grades/{id}").hasAnyRole("USER","ADMIN");
         http.authorizeRequests().antMatchers("/grades/create").hasRole("ADMIN");
         http.authorizeRequests().antMatchers("/grades/removegrade").hasRole("ADMIN");
         http.authorizeRequests().antMatchers("/grades/editgrade").hasRole("ADMIN");
@@ -59,7 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
 
-        http.authorizeRequests().antMatchers("/subjects/").hasAnyRole("USER","ADMIN");//Y AQUI
+        http.authorizeRequests().antMatchers("/subjects/").hasAnyRole("USER","ADMIN");
         http.authorizeRequests().antMatchers("/subjects/create").hasRole("ADMIN");
         http.authorizeRequests().antMatchers("/subjects/edit").hasRole("ADMIN");
         http.authorizeRequests().antMatchers("/subjects/addtograde").hasRole("ADMIN");
@@ -71,7 +70,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/admin").hasRole("ADMIN");
         http.authorizeRequests().antMatchers("/").permitAll();
 
-        http.formLogin().loginPage("/users/login");
+        http.formLogin().loginPage("/login");
         http.formLogin().usernameParameter("username");
         http.formLogin().passwordParameter("password");
         http.formLogin().failureUrl("/error");
