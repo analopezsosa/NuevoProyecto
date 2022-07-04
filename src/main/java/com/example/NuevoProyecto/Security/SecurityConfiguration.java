@@ -49,7 +49,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/users/removefromgrade").hasRole("ADMIN");
 
 
-        http.authorizeRequests().antMatchers("/grades/").hasAnyRole("USER","ADMIN");//Y AQUI
+       // http.authorizeRequests().antMatchers("/grades/").hasAnyRole("USER","ADMIN");//Y AQUI
+        http.authorizeRequests().antMatchers("/grades/").permitAll();
         http.authorizeRequests().antMatchers("/grades/{id}").hasAnyRole("USER","ADMIN");//QUIZA NR
         http.authorizeRequests().antMatchers("/grades/create").hasRole("ADMIN");
         http.authorizeRequests().antMatchers("/grades/removegrade").hasRole("ADMIN");

@@ -1,6 +1,9 @@
 package com.example.NuevoProyecto;
 
 
+import com.example.NuevoProyecto.Grade.GradeService;
+import com.example.NuevoProyecto.Subject.Subject;
+import com.example.NuevoProyecto.Subject.SubjectService;
 import com.example.NuevoProyecto.User.User;
 import com.example.NuevoProyecto.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,12 @@ import javax.servlet.http.HttpSession;
 public class Control {
     @Autowired
     UserService userService;
+
+    @Autowired
+    GradeService gradeService;
+
+    @Autowired
+    SubjectService subjectService;
 
     @GetMapping("/options")
     public String mainPage(Model model, HttpSession session){
@@ -44,5 +53,12 @@ public class Control {
             model.addAttribute("username", auth.getName());
         }
         return "user";
+    }
+
+    @GetMapping("/notregistred")
+    public String notregistred(Model model){
+        model.addAttribute("grades",gradeService.gradeList());
+        model.addAttribute("subjects", subjectService.getSubjectList());
+        return "not_registred";
     }
 }
