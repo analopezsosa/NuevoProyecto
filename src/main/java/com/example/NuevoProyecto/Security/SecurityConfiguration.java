@@ -36,30 +36,41 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
 
+        http.authorizeRequests().antMatchers("/options").hasAnyRole("USER","ADMIN");
+
+        http.authorizeRequests().antMatchers("/users/").hasAnyRole("USER","ADMIN");
         http.authorizeRequests().antMatchers("/users/login").permitAll();
         http.authorizeRequests().antMatchers("/users/signup").permitAll();
-        http.authorizeRequests().antMatchers("/users/{name}").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers("/users/joingradeU").hasRole("USER");
+        http.authorizeRequests().antMatchers("/users/joingrade").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers("/users/filter").hasAnyRole("ADMIN");
+        http.authorizeRequests().antMatchers("/users/{user}").hasRole("ADMIN");
         http.authorizeRequests().antMatchers("/users/remove").hasRole("ADMIN");
         http.authorizeRequests().antMatchers("/users/removefromgrade").hasRole("ADMIN");
 
-        http.authorizeRequests().antMatchers("/grades").permitAll();
-        http.authorizeRequests().antMatchers("/grades/{id}").hasAnyRole("USER","ADMIN");
+
+        http.authorizeRequests().antMatchers("/grades/").hasAnyRole("USER","ADMIN");//Y AQUI
+        http.authorizeRequests().antMatchers("/grades/{id}").hasAnyRole("USER","ADMIN");//QUIZA NR
         http.authorizeRequests().antMatchers("/grades/create").hasRole("ADMIN");
-      //http.authorizeRequests().antMatchers("/grades/{id}").hasAnyRole("USER");
         http.authorizeRequests().antMatchers("/grades/removegrade").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers("/grades/editgrade").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers("/grades/removeuserfromgrade").hasRole("ADMIN");
 
 
 
-        http.authorizeRequests().antMatchers("/subjects").permitAll();
-      //  http.authorizeRequests().antMatchers("/subjects/create").hasRole("USER");
-        http.authorizeRequests().antMatchers("/subjects/join").hasRole("USER");
-        //http.authorizeRequests().antMatchers("/grades/{id}").hasAnyRole("USER");
-        http.authorizeRequests().antMatchers("/subjects/{id}/delete").hasAnyRole("USER","ADMIN");
+        http.authorizeRequests().antMatchers("/subjects/").hasAnyRole("USER","ADMIN");//Y AQUI
+        http.authorizeRequests().antMatchers("/subjects/create").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers("/subjects/edit").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers("/subjects/addtograde").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers("/subjects/remove").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers("/subjects/removefromgrade").hasRole("ADMIN");
+
+
 
         http.authorizeRequests().antMatchers("/admin").hasRole("ADMIN");
         http.authorizeRequests().antMatchers("/").permitAll();
 
-        http.formLogin().loginPage("/login");
+        http.formLogin().loginPage("/users/login");
         http.formLogin().usernameParameter("username");
         http.formLogin().passwordParameter("password");
         http.formLogin().failureUrl("/error");
