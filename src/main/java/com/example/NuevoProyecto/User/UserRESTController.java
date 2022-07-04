@@ -40,7 +40,7 @@ public class UserRESTController {
             return new ResponseEntity<>(user,HttpStatus.OK);
         }else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    @PutMapping("/user/{user}")
+    @PutMapping("/user/{username}")
     @JsonView(View.Base.class)
     public ResponseEntity<User> updateUser(@PathVariable String user, @RequestBody User userToEdit) {
 
@@ -60,7 +60,7 @@ public class UserRESTController {
 
 
 
-    @DeleteMapping("/user/{user}")
+    @DeleteMapping("/user/{username}")
     @JsonView(View.Base.class)
     public ResponseEntity<User> deleteUser(@PathVariable String user) {
         User userToDelete = userService.removeUser(user);
