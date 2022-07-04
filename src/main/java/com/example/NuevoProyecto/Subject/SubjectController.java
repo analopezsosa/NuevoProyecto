@@ -49,14 +49,13 @@ public class SubjectController {
         User u = userService.getUser(infoname);
         if(u.getRoles().contains("ADMIN")){
             model.addAttribute("admin",true);
+            Subject newsubject = new Subject(name, subjectNumber, Sanitizers.FORMATTING.sanitize(description));
+            subjectService.subjectRepository.save(newsubject);
+            model.addAttribute("subject",newsubject);
+            model.addAttribute("subjects",subjectService.getSubjectList());
+            return "viewsubjects";
         }
-        Subject newsubject = new Subject(name, subjectNumber, Sanitizers.FORMATTING.sanitize(description));
-
-        //loginDisplay(model);
-        subjectService.subjectRepository.save(newsubject);
-        model.addAttribute("subject",newsubject);
-        model.addAttribute("subjects",subjectService.getSubjectList());
-        return "viewsubjects";
+        return "error";
     }
 
     @PostMapping("/edit")
@@ -65,17 +64,16 @@ public class SubjectController {
         User u = userService.getUser(infoname);
         if(u.getRoles().contains("ADMIN")){
             model.addAttribute("admin",true);
+            Subject editThisSubject = subjectService.getSubject(id);
+            if(editThisSubject != null){
+                editThisSubject.setName(name);
+                editThisSubject.setSubjectNumber(subjectNumber);
+                editThisSubject.setDescription(Sanitizers.FORMATTING.sanitize(description));
+                subjectService.addSubject(editThisSubject);
+                model.addAttribute("subjects",subjectService.getSubjectList());
+                return "viewsubjects";
+            }
         }
-        Subject editThisSubject = subjectService.getSubject(id);
-        if(editThisSubject != null){
-            editThisSubject.setName(name);
-            editThisSubject.setSubjectNumber(subjectNumber);
-            editThisSubject.setDescription(Sanitizers.FORMATTING.sanitize(description));
-            subjectService.addSubject(editThisSubject);
-            model.addAttribute("subjects",subjectService.getSubjectList());
-            return "viewsubjects";
-        }
-
         return "error";
     }
 
@@ -86,18 +84,18 @@ public class SubjectController {
         User u = userService.getUser(infoname);
         if(u.getRoles().contains("ADMIN")){
             model.addAttribute("admin",true);
-        }
-        Subject subjectToAdd = subjectService.getSubject(idS);
-        if(subjectToAdd!=null){
-            Grade g = gradeService.getGrade(idG);
+            Subject subjectToAdd = subjectService.getSubject(idS);
+            if(subjectToAdd!=null){
+                Grade g = gradeService.getGrade(idG);
 
-            g.addSubject(subjectToAdd);
-            subjectService.addSubject(subjectToAdd);
-            gradeService.addGrade(g);
-            subjectToAdd.getGrades().add(g);
+                g.addSubject(subjectToAdd);
+                subjectService.addSubject(subjectToAdd);
+                gradeService.addGrade(g);
+                subjectToAdd.getGrades().add(g);
 
-            model.addAttribute("subjects",subjectService.getSubjectList());
-            return "viewsubjects";
+                model.addAttribute("subjects",subjectService.getSubjectList());
+                return "viewsubjects";
+            }
         }
         return "error";
     }
@@ -109,17 +107,18 @@ public class SubjectController {
         User u = userService.getUser(infoname);
         if(u.getRoles().contains("ADMIN")){
             model.addAttribute("admin",true);
+            Subject subject = subjectService.getSubject(id);
+
+            if(subject != null){
+
+                deleteGrades(id);
+                subjectService.deleteSubject(id);
+                model.addAttribute("subjects",subjectService.getSubjectList());
+
+                return "viewsubjects";
+            }
         }
-        Subject subject = subjectService.getSubject(id);
 
-        if(subject != null){
-
-            deleteGrades(id);
-            subjectService.deleteSubject(id);
-            model.addAttribute("subjects",subjectService.getSubjectList());
-
-            return "viewsubjects";
-        }
         return "error";
 
 
@@ -129,22 +128,21 @@ public class SubjectController {
 
 
     @PostMapping("/removefromgrade")
-    public String remove(@RequestParam Long idS, @RequestParam Long idG, Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-            model.addAttribute("403", true);
-            return "error";
-        }
-        loginDisplay(model);
-        Subject subjectToRemove = subjectService.getSubject(idS);
-        Grade g = gradeService.getGrade(idG);
-        if (g != null){
-            g.deleteSubject(subjectToRemove);
-            subjectToRemove.getGrades().remove(g);
+    public String remove(@RequestParam Long idS, @RequestParam Long idG, Model model, HttpSession session){
+        String infoname = ( String) session.getAttribute("user");
+        User u = userService.getUser(infoname);
+        if(u.getRoles().contains("ADMIN")){
+            model.addAttribute("admin",true);
+            Subject subjectToRemove = subjectService.getSubject(idS);
+            Grade g = gradeService.getGrade(idG);
+            if (g != null){
+                g.deleteSubject(subjectToRemove);
+                subjectToRemove.getGrades().remove(g);
 
-            gradeService.addGrade(g);
-            model.addAttribute("grade",gradeService.getGrade(idG));
-            return "viewsubjectsbygrade";
+                gradeService.addGrade(g);
+                model.addAttribute("subjects",subjectService.getSubjectList());
+                return "viewsubjects";
+            }
         }
         return "error";
     }

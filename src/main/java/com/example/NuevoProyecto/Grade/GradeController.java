@@ -49,13 +49,12 @@ public class GradeController {
         User u = userService.getUser(infoname);
         if(u.getRoles().contains("ADMIN")){
             model.addAttribute("admin",true);
+            Grade grade = new Grade(name,gradeNumber,teacher);
+            gradeService.addGrade(grade);
+            model.addAttribute("grades",gradeService.gradeList());
+            return "viewgrades";
         }
-
-        Grade grade = new Grade(name,gradeNumber,teacher);
-        gradeService.gradeRepository.save(grade);
-        model.addAttribute("grade",grade);
-        model.addAttribute("grades",gradeService.gradeList());
-        return "viewgrades";
+        return "error";
     }
 
     @GetMapping("/join")
@@ -110,17 +109,21 @@ public class GradeController {
     }
 
     @PostMapping("/removegrade")
-    public String removegrade(@RequestParam long id, Model model) {
-
-        if(gradeService.getGrade(id)!=null) {
-            removeUsers(id);
-            gradeService.deleteGrade(id);
-            loginDisplay(model);
-            model.addAttribute("admin",true); //esto no se muy bien si hay necesidad de volver a indicar si es admin o lo guarda
-            model.addAttribute("isLogged",true); //esto igual
-            model.addAttribute("grades",gradeService.gradeList());
-            return "viewgrades";
+    public String removegrade(@RequestParam long id, Model model, HttpSession session) {
+        String info = (String)session.getAttribute("user");
+        User aux = userService.getUser(info);
+        if(aux.getRoles().contains("ADMIN")){
+            if(gradeService.getGrade(id)!=null) {
+                removeUsers(id);
+                gradeService.deleteGrade(id);
+                loginDisplay(model);
+                model.addAttribute("admin",true); //esto no se muy bien si hay necesidad de volver a indicar si es admin o lo guarda
+                model.addAttribute("isLogged",true); //esto igual
+                model.addAttribute("grades",gradeService.gradeList());
+                return "viewgrades";
+            }
         }
+
         return "error";
     }
 
@@ -138,33 +141,44 @@ public class GradeController {
 
 
     @PostMapping("/editgrade")
-    public String edited(Model model,@RequestParam long id, @RequestParam String name, @RequestParam int gradeNumber, @RequestParam String teacher){
-        Grade editThisGrade = gradeService.getGrade(id);
+    public String edited(Model model,@RequestParam long id, @RequestParam String name, @RequestParam int gradeNumber, @RequestParam String teacher, HttpSession session){
+        String info = (String)session.getAttribute("user");
+        User aux = userService.getUser(info);
+        if(aux.getRoles().contains("ADMIN")) {
+            Grade editThisGrade = gradeService.getGrade(id);
 
-        editThisGrade.setName(name);
-        editThisGrade.setGradeNumber(gradeNumber);
-        editThisGrade.setTeacher(teacher);
-        gradeService.addGrade(editThisGrade);
-        loginDisplay(model);
-        model.addAttribute("admin",true); //esto no se muy bien si hay necesidad de volver a indicar si es admin o lo guarda
-        model.addAttribute("isLogged",true); //esto igual
-        model.addAttribute("grades",gradeService.gradeList());
-        return "viewgrades";
+            editThisGrade.setName(name);
+            editThisGrade.setGradeNumber(gradeNumber);
+            editThisGrade.setTeacher(teacher);
+            gradeService.addGrade(editThisGrade);
+
+            model.addAttribute("admin", true); //esto no se muy bien si hay necesidad de volver a indicar si es admin o lo guarda
+            model.addAttribute("isLogged", true); //esto igual
+            model.addAttribute("grades", gradeService.gradeList());
+            return "viewgrades";
+        }
+        return "error";
     }
 
 
     @PostMapping("/removeuserfromgrade")
-    public String removeUserFromGrade(Model model, @RequestParam String name,@RequestParam long id){
-        User user=userService.getUser(name);
-        Grade grade=gradeService.getGrade(id);
-        user.deleteGrade(grade);
-        grade.deleteUser(user);
-        gradeService.addGrade(grade);
-        loginDisplay(model);
-        model.addAttribute("admin",true); //esto no se muy bien si hay necesidad de volver a indicar si es admin o lo guarda
-        model.addAttribute("isLogged",true); //esto igual
-        model.addAttribute("grades",gradeService.gradeList());
-        return "viewgrades";
+    public String removeUserFromGrade(Model model, @RequestParam String name,@RequestParam long id,HttpSession session){
+        String info = (String)session.getAttribute("user");
+        User aux = userService.getUser(info);
+        if(aux.getRoles().contains("ADMIN")) {
+
+            User user = userService.getUser(name);
+            Grade grade = gradeService.getGrade(id);
+            user.deleteGrade(grade);
+            grade.deleteUser(user);
+            gradeService.addGrade(grade);
+
+            model.addAttribute("admin", true); //esto no se muy bien si hay necesidad de volver a indicar si es admin o lo guarda
+            model.addAttribute("isLogged", true); //esto igual
+            model.addAttribute("grades", gradeService.gradeList());
+            return "viewgrades";
+        }
+        return "error";
     }
 
 
