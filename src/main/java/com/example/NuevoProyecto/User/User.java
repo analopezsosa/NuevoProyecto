@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import org.springframework.web.context.annotation.SessionScope;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
