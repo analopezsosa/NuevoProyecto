@@ -1,5 +1,7 @@
 package com.example.NuevoProyecto.Subject;
 
+import com.example.NuevoProyecto.Grade.Grade;
+import com.example.NuevoProyecto.User.User;
 import com.example.NuevoProyecto.View;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @RequestMapping("/api")
 @RestController
@@ -63,6 +66,7 @@ public class SubjectRESTController {
 
     @DeleteMapping("/subjects/{id}")
     public ResponseEntity<Subject> deleteSubject(@PathVariable long id){
+        deleteGrades(id);
         Subject subjectT = subjectService.deleteSubject(id);
         if (subjectT != null){
             return new ResponseEntity<>( HttpStatus.OK);
@@ -70,5 +74,16 @@ public class SubjectRESTController {
         else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+    public void deleteGrades(long id){
+        Subject subject = subjectService.getSubject(id);
+        List<Grade> gradesToDeleteFromSubject=subject.getGrades();
+        int x=gradesToDeleteFromSubject.size();
+        for (int i=0;i<x;i++) {
+            gradesToDeleteFromSubject.get(i).deleteSubject(subject);
+        }
+        subject.deleteGradeList(gradesToDeleteFromSubject);
+        subjectService.addSubject(subject);
+
     }
 }
