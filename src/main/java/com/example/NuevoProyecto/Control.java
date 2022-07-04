@@ -1,11 +1,13 @@
 package com.example.NuevoProyecto;
 
 
+import com.example.NuevoProyecto.Grade.Grade;
 import com.example.NuevoProyecto.Grade.GradeService;
 import com.example.NuevoProyecto.Subject.Subject;
 import com.example.NuevoProyecto.Subject.SubjectService;
 import com.example.NuevoProyecto.User.User;
 import com.example.NuevoProyecto.User.UserService;
+import net.bytebuddy.agent.builder.AgentBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.security.core.Authentication;
@@ -15,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class Control {
@@ -26,6 +29,8 @@ public class Control {
 
     @Autowired
     SubjectService subjectService;
+
+
 
     @GetMapping("/options")
     public String mainPage(Model model, HttpSession session){
@@ -58,6 +63,17 @@ public class Control {
     @GetMapping("/notregistred")
     public String notregistred(Model model){
         model.addAttribute("grades",gradeService.gradeList());
+        List<Grade> aux= gradeService.gradeList();
+        int x=aux.size();
+        for (int i=0;i<x;i++) {
+            Grade exist=gradeService.getGrade(aux.get(i).getId());
+            if (exist!=null) {
+                long id=exist.getId();
+                model.addAttribute("grade", gradeService.getGrade(id));
+            }
+
+        }
+
         model.addAttribute("subjects", subjectService.getSubjectList());
         return "not_registred";
     }
