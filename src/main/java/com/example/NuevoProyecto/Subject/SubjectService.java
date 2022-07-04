@@ -21,6 +21,7 @@ public class SubjectService {
 
     public boolean newSubject(Subject subject) {
         if(!subjectRepository.existsById(subject.getId())) {
+            subject.setDescription(Sanitizers.FORMATTING.sanitize(subject.getDescription()));
             subjectRepository.save(subject);
             return true;
         } else {
